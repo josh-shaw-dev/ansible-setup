@@ -27,3 +27,18 @@
           - name: Install Python Docker module
             pip:
                     name: docker
+
+          - name: Install Python docker-compose module
+            pip:
+                    name: docker-compose
+
+          - name: Add Docker group
+            ansible.builtin.group:
+                    name: docker
+                    state: present
+
+          - name: Add the user 'sypro' and append group 'docker'
+            ansible.builtin.user:
+                    name: sypro
+                    groups: docker
+                    append: yes
