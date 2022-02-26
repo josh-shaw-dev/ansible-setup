@@ -1,0 +1,34 @@
+---
+# Docker compose setup steps
+
+- name: Copy compose source templates
+  template:
+    src: files/docker-compose.yml
+    dest: "{{ docker_compose_dir }}/"
+    mode: 0600
+
+- name: Tear down existing services
+  community.docker.docker_compose:
+    project_src: "{{ docker_compose_dir }}"
+    state: absent
+
+- name: Create and start services
+  community.docker.docker_compose:
+    project_src: "{{ docker_compose_dir }}"
+  register: output
+
+- ansible.builtin.debug:
+    var: output
+
+- name: Run `docker-compose up` again
+  community.docker.docker_compose:
+    project_src: "{{ docker_compose_dir }}"
+    build: no
+  register: output
+
+- ansible.builtin.debug:
+    var: output
+
+- ansible.builtin.assert:
+    that: "not output.changed "
+

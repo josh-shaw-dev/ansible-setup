@@ -5,3 +5,7 @@
     - name: Include the HA role
       include_role:
         name: home-assistant
+
+    - name: Include the Unifi controller role
+      include_role:
+        name: unifi-controller
