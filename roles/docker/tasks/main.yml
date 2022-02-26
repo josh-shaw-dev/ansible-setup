@@ -1,0 +1,12 @@
+---
+- name: Install Docker compose. 
+  vars:
+    pip_install_packages:
+      - name: docker
+  
+  include_role:
+    name: geerlingguy.pip
+
+- name: Install Docker
+  include_role:
+    name: geerlingguy.docker
