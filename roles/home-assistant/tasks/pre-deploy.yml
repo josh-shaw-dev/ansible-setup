@@ -1,0 +1,108 @@
+---
+- name: Create Homeassistant configuration directory
+  file:
+    path: "{{ home_assistant_dir }}"
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+
+- name: Create Node Red configuration directory
+  file:
+    path: "{{ node_red_dir }}"
+    state: directory
+    mode: '0755'
+    owner: 1000
+    group: 1000
+
+- name: Creating mosquitto group
+  group:
+    name: mosquitto
+    gid: 1883
+
+- name: Creating mosquitto user account
+  user:
+    name: mosquitto
+    uid: 1883
+    group: mosquitto
+    create_home: false
+    home: /nonexistent
+    shell: /usr/sbin/nologin
+
+- name: Creating Mosquitto configuration and data directories
+  file:
+    path: "{{ mosquitto_dir }}/{{ item }}"
+    state: directory
+    mode: '0755'
+    owner: mosquitto
+    group: mosquitto
+  with_items:
+    - config
+    - data
+    - log
+
+- name: Creating Mosquitto config file
+  copy:
+    dest: "{{ mosquitto_dir }}/config/mosquitto.conf"
+    force: no
+    content: |
+      allow_anonymous true
+      listener 1883
+      log_dest stdout
+      password_file /mosquitto/config/mosquitto.passwd
+      persistence true
+      persistence_location /mosquitto/data/
+
+- name: Creating Mosquitto passwd file
+  copy:
+    dest: "{{ mosquitto_dir }}/config/mosquitto.passwd"
+    force: no
+    content: ""
+
+- name: Creating zigbee2mqtt group
+  group:
+    name: zigbee2mqtt
+    gid: 2000
+
+- name: Creating zigbee2mqtt user account
+  user:
+    name: zigbee2mqtt
+    uid: 2000
+    group: zigbee2mqtt
+    create_home: false
+    home: /nonexistent
+    shell: /usr/sbin/nologin
+
+- name: Creating zigbee2mqtt configuration and data directories
+  file:
+    path: "{{ zigbee2mqtt_dir }}/{{ item }}"
+    state: directory
+    mode: '0755'
+    owner: zigbee2mqtt
+    group: zigbee2mqtt
+  with_items:
+    - data
+
+- name: Creating zigbee2mqtt config file
+  copy:
+    dest: "{{ zigbee2mqtt_dir }}/configuration.yaml"
+    force: no
+    content: |
+      homeassistant: false
+      frontend:
+        # Optional, default 8080
+        port: 8000
+        # Optional, default 0.0.0.0
+        host: 0.0.0.0
+      permit_join: true
+      mqtt:
+        base_topic: zigbee2mqtt
+        server: mqtt://nuc1.localdomain
+      serial:
+        port: /dev/ttyACM0
+      advanced:
+        homeassistant_legacy_entity_attributes: false
+        legacy_api: false
+        legacy_availability_payload: false
+      device_options:
+        legacy: false  

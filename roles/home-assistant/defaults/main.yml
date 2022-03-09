@@ -1,3 +1,9 @@
 home_assistant_dir: "{{ ansible_env.HOME }}/.home-assistant"
+node_red_dir: "{{ ansible_env.HOME }}/.node-red"
+mosquitto_dir: "{{ ansible_env.HOME }}/.mosquitto"
+zigbee2mqtt_dir: "{{ ansible_env.HOME }}/.zigbee2mqtt"
+
+mqtt_password: password
+
 docker_compose_dir: "{{ ansible_env.HOME }}/home-assistant-docker"
 

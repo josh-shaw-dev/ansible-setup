@@ -1,11 +1,16 @@
 - import_playbook: docker-server.yml
 
 - hosts: home_assistant
-  tasks:
-    - name: Include the HA role
-      include_role:
-        name: home-assistant
+  pre_tasks:
+    - name: Setup dirs, users etc
+      become: yes
+      import_tasks: roles/home-assistant/tasks/pre-deploy.yml
 
-    - name: Include the Unifi controller role
-      include_role:
-        name: unifi-controller
+  roles:
+    - home-assistant
+    - unifi-controller
+
+  post_tasks:
+    - name: Setup mqtt password
+      become: yes
+      import_tasks: roles/home-assistant/tasks/post-deploy.yml

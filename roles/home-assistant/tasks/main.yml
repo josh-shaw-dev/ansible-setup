@@ -1,6 +1,5 @@
 ---
 # Custom integration steps
-
 - name: Clone the echonet lite repository
   git:
     repo: https://github.com/scottyphillips/echonetlite_homeassistant.git
@@ -52,4 +51,3 @@
 
 - ansible.builtin.assert:
     that: "not output.changed "
-

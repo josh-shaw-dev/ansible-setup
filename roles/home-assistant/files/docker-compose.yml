@@ -4,8 +4,56 @@ services:
     container_name: homeassistant
     image: "ghcr.io/home-assistant/home-assistant:stable"
     volumes:
-      - ~/.home-assistant/:/config
+      - "{{ home_assistant_dir }}:/config"
       - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
     privileged: true
     network_mode: host
+    depends_on:
+      - mosquitto
+
+  node-red:
+    container_name: node-red
+    image: nodered/node-red
+    ports:
+      - "1880:1880"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - "{{ node_red_dir }}:/data"
+    depends_on:
+      - mosquitto
+    restart: unless-stopped
+
+  mosquitto:
+    container_name: mosquitto
+    image: eclipse-mosquitto
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - "{{ mosquitto_dir }}/config:/mosquitto/config"
+      - "{{ mosquitto_dir }}/data:/mosquitto/data"
+      - "{{ mosquitto_dir }}/logs:/mosquitto/log"
+    ports:
+      - "1883:1883"
+    restart: unless-stopped
+
+  zigbee2mqtt:
+    container_name: zigbee2mqtt
+    image: koenkk/zigbee2mqtt
+    restart: unless-stopped
+    volumes:
+      - "{{ zigbee2mqtt_dir }}:/app/data"
+      - /run/udev:/run/udev:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro      
+    ports:
+      # Frontend port
+      - 8000:8000
+    # environment:
+    #   - TZ=Europe/Berlin
+    devices:
+      # Make sure this matched your adapter location
+      - /dev/ttyUSB0:/dev/ttyACM0
+    depends_on:
+      - mosquitto

@@ -3,10 +3,14 @@
   vars:
     pip_install_packages:
       - name: docker
+      - name: docker-compose
   
   include_role:
     name: geerlingguy.pip
 
 - name: Install Docker
+  vars:
+    docker_users:
+      - sypro
   include_role:
     name: geerlingguy.docker
