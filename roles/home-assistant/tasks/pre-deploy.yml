@@ -88,7 +88,7 @@
     dest: "{{ zigbee2mqtt_dir }}/configuration.yaml"
     force: no
     content: |
-      homeassistant: false
+      homeassistant: true
       frontend:
         # Optional, default 8080
         port: 8000
