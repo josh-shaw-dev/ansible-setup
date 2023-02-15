@@ -1,0 +1,22 @@
+version: '3'
+services:
+  swag:
+    image: linuxserver/swag
+    container_name: swag-proxy
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ~/.swag-proxy/:/config
+    environment:
+      - PGID=1004
+      - PUID=1000
+      - URL={{ external_proxy_url }}
+      - SUBDOMAINS=wildcard
+      - VALIDATION=dns
+      - DNSPLUGIN=cloudflare
+      - TZ=Pacific/Auckland
+    ports:
+      - "80:80"
+      - "443:443"

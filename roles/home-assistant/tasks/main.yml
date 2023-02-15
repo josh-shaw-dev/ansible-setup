@@ -17,7 +17,26 @@
     src: "{{ docker_compose_dir }}/echonet/custom_components/echonetlite"
     dest: "{{ home_assistant_dir }}/custom_components/"
     remote_src: yes
-    directory_mode: 0600  
+    directory_mode: 0600
+
+- name: Clone the opensprinkler plugin repository
+  git:
+    repo: https://github.com/vinteo/hass-opensprinkler.git
+    dest: "{{ docker_compose_dir }}/hass-opensprinkler"
+    clone: yes
+    update: yes
+
+- name: debug through ansible.env
+  become: yes
+  debug: var=ansible_env.HOME   
+
+- name: Copy opensprinkler plugin files
+  become: yes
+  ansible.builtin.copy:
+    src: "{{ docker_compose_dir }}/hass-opensprinkler/custom_components/opensprinkler"
+    dest: "{{ home_assistant_dir }}/custom_components/"
+    remote_src: yes
+    directory_mode: 0600
 
 # Docker compose setup steps
 

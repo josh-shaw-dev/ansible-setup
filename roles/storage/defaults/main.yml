@@ -1,6 +1,7 @@
 nas_host: "nas1.localdomain"
 
-nfs_cameras_mount: "/mnt/security_footage_tank/cameras"
-nfs_cameras_mount_point: "/mnt/security_footage_tank/cameras"
+nfs_host_cameras_mount: "/mnt/security_footage_tank/cameras"
+nfs_client_cameras_mount: "/mnt/security_footage_tank/cameras"
 
-
+nfs_host_backup_mount: "/mnt/tank/backed_up/nuc1"
+nfs_client_backup_mount: "/mnt/tank/backed_up/nuc1"

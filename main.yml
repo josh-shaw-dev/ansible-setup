@@ -1,4 +1,5 @@
 - import_playbook: docker-server.yml
+- import_playbook: cameras-server.yml
 
 - hosts: home_assistant
   pre_tasks:

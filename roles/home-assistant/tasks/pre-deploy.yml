@@ -97,7 +97,7 @@
       permit_join: true
       mqtt:
         base_topic: zigbee2mqtt
-        server: mqtt://nuc1.localdomain
+        server: mqtt://{{ mqtt_url }}
       serial:
         port: /dev/ttyACM0
       advanced:
