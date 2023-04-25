@@ -24,35 +24,35 @@
     state: present
   when: ansible_os_family == 'Debian'
 
-- name: check mountpoint exist
-  ansible.builtin.file:
-    path: "{{ nfs_client_cameras_mount }}"
-    state: directory
-    mode: '0777'
-    owner: root
-    group: root
+# - name: check mountpoint exist
+#   ansible.builtin.file:
+#     path: "{{ nfs_client_cameras_mount }}"
+#     state: directory
+#     mode: '0777'
+#     owner: root
+#     group: root
 
-- name: mount network share
-  ansible.posix.mount:
-    src: "{{ nas_host }}:{{ nfs_host_cameras_mount }}"
-    path: "{{ nfs_client_cameras_mount }}"
-    fstype: nfs
-    opts: 'rw,sync'
-    state: mounted
+# - name: mount network share
+#   ansible.posix.mount:
+#     src: "{{ nas_host }}:{{ nfs_host_cameras_mount }}"
+#     path: "{{ nfs_client_cameras_mount }}"
+#     fstype: nfs
+#     opts: 'rw,sync'
+#     state: mounted
 
-- name: check mountpoint exist
-  ansible.builtin.file:
-    path: "{{ nfs_client_backup_mount }}"
-    state: directory
-    mode: '0777'
-    owner: root
-    group: root
+# - name: check mountpoint exist
+#   ansible.builtin.file:
+#     path: "{{ nfs_client_backup_mount }}"
+#     state: directory
+#     mode: '0777'
+#     owner: root
+#     group: root
 
-- name: mount network share
-  ansible.posix.mount:
-    src: "{{ nas_host }}:{{ nfs_host_backup_mount }}"
-    path: "{{ nfs_client_backup_mount }}"
-    fstype: nfs
-    opts: 'rw,sync'
-    state: mounted
+# - name: mount network share
+#   ansible.posix.mount:
+#     src: "{{ nas_host }}:{{ nfs_host_backup_mount }}"
+#     path: "{{ nfs_client_backup_mount }}"
+#     fstype: nfs
+#     opts: 'rw,sync'
+#     state: mounted
 

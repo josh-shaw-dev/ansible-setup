@@ -1,3 +1,4 @@
+- import_playbook: include_vault.yml
 - import_playbook: docker-server.yml
 - import_playbook: cameras-server.yml
 
@@ -10,6 +11,7 @@
   roles:
     - home-assistant
     - unifi-controller
+    - reverse-proxy
 
   post_tasks:
     - name: Setup mqtt password

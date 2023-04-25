@@ -4,7 +4,7 @@ mosquitto_dir: "{{ ansible_env.HOME }}/.mosquitto"
 zigbee2mqtt_dir: "{{ ansible_env.HOME }}/.zigbee2mqtt"
 
 mqtt_url: "mqtt.localdomain"
-mqtt_password: {{ mqtt_password }}
+mqtt_password: ""
 
 docker_compose_dir: "{{ ansible_env.HOME }}/home-assistant-docker"
 

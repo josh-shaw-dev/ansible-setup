@@ -8,15 +8,17 @@
     mode: 0600
 
 - name: Copy home assistant reverse proxy conf
+  become: yes
   template:
-    src: files/homeassistant-subdomain.conf
-    dest: "{{ swag_proxy_dir }}/swag/config/nginx/proxy-confs/"
+    src: files/homeassistant.subdomain.conf
+    dest: "{{ swag_proxy_dir }}/nginx/proxy-confs/"
     mode: 0600
 
 - name: Copy reverse proxy cloudflare dns config
+  become: yes
   template:
     src: files/cloudflare.ini
-    dest: "{{ swag_proxy_dir }}/swag/config/dns-conf/"
+    dest: "{{ swag_proxy_dir }}/dns-conf/"
     mode: 0600
 
 - name: Tear down existing services

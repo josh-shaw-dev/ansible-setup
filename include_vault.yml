@@ -1,0 +1,6 @@
+- name: Playbook with Vault
+  hosts: all
+  tasks:
+    - name: include vault
+      ansible.builtin.include_vars:
+        file: secrets.enc
