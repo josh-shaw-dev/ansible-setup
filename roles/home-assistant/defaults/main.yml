@@ -2,6 +2,7 @@ home_assistant_dir: "{{ ansible_env.HOME }}/.home-assistant"
 node_red_dir: "{{ ansible_env.HOME }}/.node-red"
 mosquitto_dir: "{{ ansible_env.HOME }}/.mosquitto"
 zigbee2mqtt_dir: "{{ ansible_env.HOME }}/.zigbee2mqtt"
+esp_home_dir: "{{ ansible_env.HOME }}/.esphome"
 
 mqtt_url: "mqtt.localdomain"
 mqtt_password: ""

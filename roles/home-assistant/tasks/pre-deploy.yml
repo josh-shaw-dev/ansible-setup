@@ -7,6 +7,14 @@
     owner: root
     group: root
 
+- name: Create EspHome configuration directory
+  file:
+    path: "{{ esp_home_dir }}"
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+
 - name: Create Node Red configuration directory
   file:
     path: "{{ node_red_dir }}"
