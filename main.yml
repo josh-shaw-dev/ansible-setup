@@ -7,11 +7,15 @@
     - name: Setup dirs, users etc
       become: yes
       import_tasks: roles/home-assistant/tasks/pre-deploy.yml
+    - name: Setup dirs, users etc
+      become: yes
+      import_tasks: roles/streaming/tasks/pre-deploy.yml
 
   roles:
     - home-assistant
     - unifi-controller
     - reverse-proxy
+    - streaming
 
   post_tasks:
     - name: Setup mqtt password

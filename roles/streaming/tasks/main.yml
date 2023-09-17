@@ -1,0 +1,53 @@
+---
+# Custom integration steps
+# - name: Clone the echonet lite repository
+#   git:
+#     repo: https://github.com/scottyphillips/echonetlite_homeassistant.git
+#     dest: "{{ docker_compose_dir }}/echonet"
+#     clone: yes
+#     update: yes
+
+# - name: debug through ansible.env
+#   become: yes
+#   debug: var=ansible_env.HOME   
+
+# - name: Copy echonet lite files
+#   become: yes
+#   ansible.builtin.copy:
+#     src: "{{ docker_compose_dir }}/echonet/custom_components/echonetlite"
+#     dest: "{{ home_assistant_dir }}/custom_components/"
+#     remote_src: yes
+#     directory_mode: 0600  
+
+# Docker compose setup steps
+
+- name: Copy compose source templates
+  template:
+    src: files/docker-compose.yml
+    dest: "{{ docker_compose_dir }}"
+    mode: 0600
+
+- name: Tear down existing services
+  community.docker.docker_compose:
+    project_src: "{{ docker_compose_dir }}"
+    state: absent
+
+- name: Create and start services
+  community.docker.docker_compose:
+    project_src: "{{ docker_compose_dir }}"
+  register: output
+
+- ansible.builtin.debug:
+    var: output
+
+- name: Run `docker-compose up` again
+  community.docker.docker_compose:
+    project_src: "{{ docker_compose_dir }}"
+    build: no
+  register: output
+
+- ansible.builtin.debug:
+    var: output
+
+- ansible.builtin.assert:
+    that: "not output.changed "
