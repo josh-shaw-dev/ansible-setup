@@ -1,0 +1,7 @@
+- hosts: cameras
+  name: Install camera software and storage mounts.
+  become: yes
+  tasks:
+    - name: Include the storage role
+      include_role:
+        name: storage

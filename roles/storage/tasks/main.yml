@@ -1,41 +1,58 @@
 ---
-- name: mount nfs share
-  hosts: all
-  become: true
-  vars:
-    mynfs: "{{ nas_host }}:{{ nfs_cameras_mount }}"
-    mountpoint: "{{ nfs_cameras_mount_point }}"
-    permission: '0777'
-    myopts: 'rw,sync'
-  tasks:
-    - name: utility present redhat-like
-      ansible.builtin.yum:
-        name:
-          - nfs-utils
-          - nfs4-acl-tools
-        state: present
-      when: ansible_os_family == 'RedHat'
+# - name: mount nfs share
+#   vars:
+#     mynfs: "{{ nas_host }}:{{ nfs_host_cameras_mount }}"
+#     mountpoint: "{{ nfs_client_cameras_mount }}"
+#     permission: '0777'
+#     myopts: 'rw,sync'
 
-    - name: utility present debian-like
-      ansible.builtin.apt:
-        name:
-          - nfs-common
-          - nfs4-acl-tools
-        state: present
-      when: ansible_os_family == 'Debian'
+#### TODO convert the vars to defaults
 
-    - name: check mountpoint exist
-      ansible.builtin.file:
-        path: "{{ mountpoint }}"
-        state: directory
-        mode: "{{ permission }}"
-        owner: root
-        group: root
+- name: utility present redhat-like
+  ansible.builtin.yum:
+    name:
+      - nfs-utils
+      - nfs4-acl-tools
+    state: present
+  when: ansible_os_family == 'RedHat'
 
-    - name: mount network share
-      ansible.posix.mount:
-        src: "{{ mynfs }}"
-        path: "{{ mountpoint }}"
-        fstype: nfs
-        opts: "{{ myopts }}"
-        state: mounted
+- name: utility present debian-like
+  ansible.builtin.apt:
+    name:
+      - nfs-common
+      - nfs4-acl-tools
+    state: present
+  when: ansible_os_family == 'Debian'
+
+# - name: check mountpoint exist
+#   ansible.builtin.file:
+#     path: "{{ nfs_client_cameras_mount }}"
+#     state: directory
+#     mode: '0777'
+#     owner: root
+#     group: root
+
+# - name: mount network share
+#   ansible.posix.mount:
+#     src: "{{ nas_host }}:{{ nfs_host_cameras_mount }}"
+#     path: "{{ nfs_client_cameras_mount }}"
+#     fstype: nfs
+#     opts: 'rw,sync'
+#     state: mounted
+
+# - name: check mountpoint exist
+#   ansible.builtin.file:
+#     path: "{{ nfs_client_backup_mount }}"
+#     state: directory
+#     mode: '0777'
+#     owner: root
+#     group: root
+
+# - name: mount network share
+#   ansible.posix.mount:
+#     src: "{{ nas_host }}:{{ nfs_host_backup_mount }}"
+#     path: "{{ nfs_client_backup_mount }}"
+#     fstype: nfs
+#     opts: 'rw,sync'
+#     state: mounted
+

@@ -57,3 +57,15 @@ services:
       - /dev/ttyUSB0:/dev/ttyACM0
     depends_on:
       - mosquitto
+
+  esphome:
+    container_name: esphome
+    image: ghcr.io/esphome/esphome
+    volumes:
+      - "{{ esp_home_dir }}/config:/config"
+      - /etc/localtime:/etc/localtime:ro
+    restart: always
+    privileged: true
+    network_mode: host
+    environment:
+      - ESPHOME_DASHBOARD_USE_PING=true
