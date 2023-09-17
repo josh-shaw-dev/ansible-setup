@@ -1,31 +1,30 @@
 ---
+# Custom integration steps
+# - name: Clone the echonet lite repository
+#   git:
+#     repo: https://github.com/scottyphillips/echonetlite_homeassistant.git
+#     dest: "{{ docker_compose_dir }}/echonet"
+#     clone: yes
+#     update: yes
+
+# - name: debug through ansible.env
+#   become: yes
+#   debug: var=ansible_env.HOME   
+
+# - name: Copy echonet lite files
+#   become: yes
+#   ansible.builtin.copy:
+#     src: "{{ docker_compose_dir }}/echonet/custom_components/echonetlite"
+#     dest: "{{ home_assistant_dir }}/custom_components/"
+#     remote_src: yes
+#     directory_mode: 0600  
+
 # Docker compose setup steps
 
 - name: Copy compose source templates
   template:
     src: files/docker-compose.yml
-    dest: "{{ docker_compose_dir }}/"
-    mode: 0600
-
-- name: Copy home assistant reverse proxy conf
-  become: yes
-  template:
-    src: files/homeassistant.subdomain.conf
-    dest: "{{ swag_proxy_dir }}/nginx/proxy-confs/"
-    mode: 0600
-
-- name: Copy navidrome reverse proxy conf
-  become: yes
-  template:
-    src: files/navidrome.subdomain.conf
-    dest: "{{ swag_proxy_dir }}/nginx/proxy-confs/"
-    mode: 0600
-
-- name: Copy reverse proxy cloudflare dns config
-  become: yes
-  template:
-    src: files/cloudflare.ini
-    dest: "{{ swag_proxy_dir }}/dns-conf/"
+    dest: "{{ docker_compose_dir }}"
     mode: 0600
 
 - name: Tear down existing services
@@ -52,4 +51,3 @@
 
 - ansible.builtin.assert:
     that: "not output.changed "
-
