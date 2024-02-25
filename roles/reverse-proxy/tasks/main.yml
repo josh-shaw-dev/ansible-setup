@@ -21,6 +21,20 @@
     dest: "{{ swag_proxy_dir }}/nginx/proxy-confs/"
     mode: 0600
 
+- name: Copy lms local reverse proxy conf
+  become: yes
+  template:
+    src: files/lms.local.subdomain.conf
+    dest: "{{ swag_proxy_dir }}/nginx/proxy-confs/"
+    mode: 0600   
+
+- name: Copy sprinklers local reverse proxy conf
+  become: yes
+  template:
+    src: files/sprinklers.local.subdomain.conf 
+    dest: "{{ swag_proxy_dir }}/nginx/proxy-confs/"
+    mode: 0600   
+
 - name: Copy reverse proxy cloudflare dns config
   become: yes
   template:

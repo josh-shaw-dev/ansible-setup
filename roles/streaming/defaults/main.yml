@@ -2,10 +2,11 @@ media_dir: "{{ ansible_env.HOME }}/media"
 music_dir: "{{ media_dir }}/music"
 ebook_dir: "{{ media_dir }}/ebooks"
 
-docker_compose_dir: "{{ ansible_env.HOME }}/navidrome-docker"
+streaming_docker_compose_dir: "{{ ansible_env.HOME }}/streaming-docker"
 
 navidrome_dir: "{{ ansible_env.HOME }}/.navidrome"
 soulseek_dir: "{{ ansible_env.HOME }}/.soulseek"
+lms_dir: "{{ ansible_env.HOME }}/.lms"
 
 navidrome_user: 1000
 navidrome_group: 1000

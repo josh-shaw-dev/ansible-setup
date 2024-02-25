@@ -1,0 +1,9 @@
+---
+- name: Create the Iotawatt user
+  community.general.influxdb_user:
+    user_name: "{{ influx_ingestion_iotawatt_username }}"
+    user_password: "{{ influx_ingestion_iotawatt_password }}"
+    admin: false
+    hostname: "localhost"
+    login_username: "{{ influx_init_super_username }}"
+    login_password: "{{ influx_init_super_password }}"

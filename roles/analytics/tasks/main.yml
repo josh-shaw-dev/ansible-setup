@@ -1,20 +1,33 @@
 ---
 # Docker compose setup steps
 
+- name: Install python influx client 
+  vars:
+    pip_install_packages:
+      - name: influxdb
+  include_role:
+    name: geerlingguy.pip      
+
+- name: Copy compose source templates
+  template:
+    src: files/influxenv2.env
+    dest: "{{ docker_compose_dir }}"
+    mode: 0600
+
 - name: Copy compose source templates
   template:
     src: files/docker-compose.yml
-    dest: "{{ streaming_docker_compose_dir }}/docker-compose.yml"
+    dest: "{{ docker_compose_dir }}"
     mode: 0600
 
 - name: Tear down existing services
   community.docker.docker_compose:
-    project_src: "{{ streaming_docker_compose_dir }}"
+    project_src: "{{ docker_compose_dir }}"
     state: absent
 
 - name: Create and start services
   community.docker.docker_compose:
-    project_src: "{{ streaming_docker_compose_dir }}"
+    project_src: "{{ docker_compose_dir }}"
   register: output
 
 - ansible.builtin.debug:
@@ -22,7 +35,7 @@
 
 - name: Run `docker-compose up` again
   community.docker.docker_compose:
-    project_src: "{{ streaming_docker_compose_dir }}"
+    project_src: "{{ docker_compose_dir }}"
     build: no
   register: output
 

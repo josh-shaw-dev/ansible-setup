@@ -14,6 +14,8 @@
     dest: "{{ home_assistant_dir }}/custom_components/"
     remote_src: yes
     directory_mode: 0600
+    owner: hassuser
+    group: hassgroup    
 
 - name: Clone the opensprinkler plugin repository
   git:
@@ -29,6 +31,46 @@
     dest: "{{ home_assistant_dir }}/custom_components/"
     remote_src: yes
     directory_mode: 0600
+    owner: hassuser
+    group: hassgroup        
+
+- name: Clone the opensprinkler local weather
+  git:
+    repo: https://github.com/OpenSprinkler/OpenSprinkler-Weather.git
+    dest: "{{ docker_compose_dir }}/opensprinkler-weather"
+    clone: yes
+    update: yes
+
+- name: Creating opensprinkler weather env file
+  copy:
+    dest: "{{ docker_compose_dir }}/opensprinkler-weather/.env"
+    force: no
+    content: |
+      HOST=0.0.0.0
+      PORT=3000
+      WEATHER_PROVIDER=local
+      PWS=WU
+
+- name: Execute opensprinkler local weather docker build script
+  ansible.builtin.command: /home/sypro/home-assistant-docker/opensprinkler-weather/build-docker.sh
+  args:
+    chdir: /home/sypro/home-assistant-docker/opensprinkler-weather
+
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ home_assistant_dir }}/www"
+    state: directory
+    mode: '0755'
+  become: yes  
+
+- name: Download opensprinkler js card
+  ansible.builtin.get_url:
+    url: https://github.com/rianadon/opensprinkler-card/releases/latest/download/opensprinkler-card.js
+    dest: "{{ home_assistant_dir }}/www/opensprinkler-card.js"
+    mode: '0755'
+    owner: hassuser
+    group: hassgroup     
+  become: yes  
 
 - name: Clone the pfsense plugin repository
   git:
@@ -44,8 +86,15 @@
     dest: "{{ home_assistant_dir }}/custom_components/"
     remote_src: yes
     directory_mode: 0600
+    owner: hassuser
+    group: hassgroup         
 
 # Docker compose setup steps
+- name: Copy dockerfile weewx
+  template:
+    src: files/DockerfileWeewx
+    dest: "{{ docker_compose_dir }}"
+    mode: 0600
 
 - name: Copy compose source templates
   template:

@@ -1,11 +1,24 @@
 ---
+- name: Ensure group "hassgroup" exists with correct gid
+  ansible.builtin.group:
+    name: hassgroup
+    state: present
+    gid: 8123
+
+- name: Add home assistant user
+  ansible.builtin.user:
+    name: hassuser
+    comment: homeassistant
+    uid: 1001
+    group: hassgroup
+
 - name: Create Homeassistant configuration directory
   file:
     path: "{{ home_assistant_dir }}"
     state: directory
     mode: '0755'
-    owner: root
-    group: root
+    owner: hassuser
+    group: hassgroup
 
 - name: Create EspHome configuration directory
   file:
@@ -14,6 +27,14 @@
     mode: '0755'
     owner: root
     group: root
+
+- name: Create WeeWx configuration directory
+  file:
+    path: "{{ weewx_home_dir }}"
+    state: directory
+    mode: '0755'
+    owner: 1000
+    group: 1000
 
 - name: Create Node Red configuration directory
   file:
@@ -64,6 +85,7 @@
 - name: Creating Mosquitto passwd file
   copy:
     dest: "{{ mosquitto_dir }}/config/mosquitto.passwd"
+    mode: '0700'    
     force: no
     content: ""
 
@@ -114,3 +136,10 @@
         legacy_availability_payload: false
       device_options:
         legacy: false  
+
+- name: Creating wee wx config
+  copy:
+    src: ../files/weewx.conf
+    dest: "{{ weewx_home_dir }}"
+    mode: '0700'    
+    force: yes

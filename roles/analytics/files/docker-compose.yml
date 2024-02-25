@@ -1,0 +1,30 @@
+version: '3'
+services:
+  influxdb:
+    image: influxdb:2.7-alpine
+    env_file:
+      - influxenv2.env
+    volumes:
+      # Mount for influxdb data directory and configuration
+      - "{{ influx_dir }}/data:/var/lib/influxdb2:rw"
+      - "{{ influx_dir }}/influxdb.yml:/etc/influxdb/influxdb.yml:ro"
+    ports:
+      - "8086:8086"
+    restart: unless-stopped
+
+  smokeping:
+    image: lscr.io/linuxserver/smokeping:latest
+    container_name: smokeping
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - "{{ smokeping_dir }}/config:/config"
+      - "{{ smokeping_dir }}/data:/data"
+    ports:
+      - 1550:80
+    restart: unless-stopped
+
+volumes:
+  influxdbv2:

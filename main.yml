@@ -1,6 +1,7 @@
 - import_playbook: include_vault.yml
 - import_playbook: docker-server.yml
 - import_playbook: cameras-server.yml
+# - import_playbook: analytics-server.yml
 
 - hosts: home_assistant
   pre_tasks:
@@ -16,8 +17,13 @@
     - unifi-controller
     - reverse-proxy
     - streaming
+    - storage
+    - analytics
 
   post_tasks:
     - name: Setup mqtt password
       become: yes
       import_tasks: roles/home-assistant/tasks/post-deploy.yml
+    - name: Setup Influx users
+      # become: yes
+      import_tasks: roles/analytics/tasks/post-deploy.yml

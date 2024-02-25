@@ -2,4 +2,6 @@ docker_compose_dir: "{{ ansible_env.HOME }}/swag-proxy-docker"
 swag_proxy_dir: "{{ ansible_env.HOME }}/.swag-proxy"
 
 home_assistant_revese_proxy_upstream: "homeassistant.localdomain"
+lms_revese_proxy_upstream: "lms.localdomain"
+sprinklers_revese_proxy_upstream: "sprinklers.localdomain"
 navidrome_revese_proxy_upstream: "navidrome.localdomain"

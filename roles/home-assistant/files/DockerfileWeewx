@@ -1,0 +1,5 @@
+FROM felddy/weewx:4.8.0
+
+RUN pip install Pillow==9.4.0
+RUN pip install CT3
+RUN pip install pyephem

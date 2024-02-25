@@ -1,0 +1,7 @@
+- hosts: analytics
+  name: Install metrics/analytics software
+  become: yes
+  tasks:
+    - name: Include the storage role
+      include_role:
+        name: analytics

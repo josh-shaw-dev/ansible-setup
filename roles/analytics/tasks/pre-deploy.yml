@@ -1,0 +1,14 @@
+---
+- name: Create Influx configuration/data directory
+  file:
+    path: "{{ influx_dir }}"
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+
+- name: Copy influx config
+  template:
+    src: files/influxdb.yml
+    dest: "{{ influx_dir }}/influxdb.yml"
+    mode: 0600
