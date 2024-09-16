@@ -8,12 +8,12 @@
     mode: 0600
 
 - name: Tear down existing services
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ docker_compose_dir }}"
     state: absent
 
 - name: Create and start services
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ docker_compose_dir }}"
   register: output
 
@@ -21,9 +21,9 @@
     var: output
 
 - name: Run `docker-compose up` again
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ docker_compose_dir }}"
-    build: no
+    build: never
   register: output
 
 - ansible.builtin.debug:

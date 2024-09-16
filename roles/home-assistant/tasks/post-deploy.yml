@@ -2,4 +2,4 @@
 - name: Creating mqtt account and password
   community.docker.docker_container_exec:
     container: mosquitto
-    command: mosquitto_passwd -b -c /mosquitto/config/mosquitto.passwd mqtt "{{ mqtt_password }}"
+    command: mosquitto_passwd -b -c /mosquitto/config/mosquitto.passwd mqtt "{{ mqtt_password_sec }}"

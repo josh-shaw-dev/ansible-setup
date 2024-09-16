@@ -6,7 +6,6 @@ esp_home_dir: "{{ ansible_env.HOME }}/.esphome"
 weewx_home_dir: "{{ ansible_env.HOME }}/.weewx"
 
 mqtt_url: "mqtt.localdomain"
-mqtt_password: ""
 
 docker_compose_dir: "{{ ansible_env.HOME }}/home-assistant-docker"
 

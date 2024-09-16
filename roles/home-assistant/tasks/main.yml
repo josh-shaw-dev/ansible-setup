@@ -15,7 +15,7 @@
     remote_src: yes
     directory_mode: 0600
     owner: hassuser
-    group: hassgroup    
+    group: hassgroup
 
 - name: Clone the opensprinkler plugin repository
   git:
@@ -32,7 +32,24 @@
     remote_src: yes
     directory_mode: 0600
     owner: hassuser
-    group: hassgroup        
+    group: hassgroup
+
+- name: Clone the hass-auto-backup plugin repository
+  git:
+    repo: https://github.com/jcwillox/hass-auto-backup.git
+    dest: "{{ docker_compose_dir }}/hass-opensprinkler"
+    clone: yes
+    update: yes
+
+- name: Copy hass-auto-backup plugin files
+  become: yes
+  ansible.builtin.copy:
+    src: "{{ docker_compose_dir }}/hass-auto-backup/custom_components/auto_backup"
+    dest: "{{ home_assistant_dir }}/custom_components/"
+    remote_src: yes
+    directory_mode: 0600
+    owner: hassuser
+    group: hassgroup
 
 - name: Clone the opensprinkler local weather
   git:
@@ -103,12 +120,12 @@
     mode: 0600
 
 - name: Tear down existing services
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ docker_compose_dir }}"
     state: absent
 
 - name: Create and start services
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ docker_compose_dir }}"
   register: output
 
@@ -116,9 +133,9 @@
     var: output
 
 - name: Run `docker-compose up` again
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ docker_compose_dir }}"
-    build: no
+    build: never
   register: output
 
 - ansible.builtin.debug:
