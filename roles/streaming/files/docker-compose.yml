@@ -48,3 +48,13 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
+
+  mediamtx:
+    container_name: mediamtx
+    image: bluenviron/mediamtx:latest-ffmpeg
+    volumes:
+      - "{{ mediamtx_dir }}/mediamtx.yml:/mediamtx.yml:ro"
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    network_mode: host
+    restart: always

@@ -11,6 +11,9 @@
     - name: Setup dirs, users etc
       become: yes
       import_tasks: roles/streaming/tasks/pre-deploy.yml
+    - name: Setup dirs, users etc
+      become: yes
+      import_tasks: roles/unifi-controller/tasks/pre-deploy.yml
 
   roles:
     - home-assistant

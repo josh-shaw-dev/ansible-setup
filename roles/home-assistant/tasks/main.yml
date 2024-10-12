@@ -37,7 +37,7 @@
 - name: Clone the hass-auto-backup plugin repository
   git:
     repo: https://github.com/jcwillox/hass-auto-backup.git
-    dest: "{{ docker_compose_dir }}/hass-opensprinkler"
+    dest: "{{ docker_compose_dir }}/hass-auto-backup"
     clone: yes
     update: yes
 

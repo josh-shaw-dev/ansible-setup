@@ -7,6 +7,7 @@ streaming_docker_compose_dir: "{{ ansible_env.HOME }}/streaming-docker"
 navidrome_dir: "{{ ansible_env.HOME }}/.navidrome"
 soulseek_dir: "{{ ansible_env.HOME }}/.soulseek"
 lms_dir: "{{ ansible_env.HOME }}/.lms"
+mediamtx_dir: "{{ ansible_env.HOME }}/.mediamtx"
 
 navidrome_user: 1000
 navidrome_group: 1000

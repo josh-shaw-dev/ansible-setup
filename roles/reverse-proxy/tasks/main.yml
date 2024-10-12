@@ -7,6 +7,13 @@
     dest: "{{ docker_compose_dir }}/"
     mode: 0600
 
+- name: Copy public cameras reverse proxy conf
+  become: yes
+  template:
+    src: files/public-cameras.subdomain.conf
+    dest: "{{ swag_proxy_dir }}/nginx/proxy-confs/"
+    mode: 0600
+
 - name: Copy home assistant reverse proxy conf
   become: yes
   template:

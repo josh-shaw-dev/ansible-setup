@@ -3,6 +3,12 @@
 
 - name: Copy compose source templates
   template:
+    src: files/init-mongo.sh
+    dest: "{{ unifi_dir }}/mongo/"
+    mode: 0755
+
+- name: Copy compose source templates
+  template:
     src: files/docker-compose.yml
     dest: "{{ docker_compose_dir }}/"
     mode: 0600

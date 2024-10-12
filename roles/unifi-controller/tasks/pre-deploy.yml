@@ -1,0 +1,8 @@
+---
+- name: Create mongo dir
+  file:
+    path: "{{ unifi_dir }}/mongo/"
+    state: directory
+    mode: '0755'
+    owner: 'root'
+    group: 'root'

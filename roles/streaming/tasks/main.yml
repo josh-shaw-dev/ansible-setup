@@ -3,6 +3,12 @@
 
 - name: Copy compose source templates
   template:
+    src: files/mediamtx.yml
+    dest: "{{ mediamtx_dir }}/"
+    mode: 0755
+
+- name: Copy compose source templates
+  template:
     src: files/docker-compose.yml
     dest: "{{ streaming_docker_compose_dir }}/docker-compose.yml"
     mode: 0600
