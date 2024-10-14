@@ -1,4 +1,3 @@
-# Basic Config
 esphome:
   name: esphome-ir-blaster-1
   friendly_name: Dining Room IR Blaster
@@ -8,7 +7,27 @@ esp32:
   framework:
     type: arduino
 
-# your OTA/API/Wifi/logger boilerplate here
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: !secret api_encryption_key
+
+ota:
+  - platform: esphome
+    password: !secret ota_password
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  domain: .localdomain
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap: {}
+
+captive_portal:
 
 remote_transmitter:
   - id: transmitter_ir
@@ -26,6 +45,8 @@ remote_receiver:
       number: GPIO23
       inverted: True
     dump: all
+    # Settings to optimize recognition of RF devices
+    tolerance: 50%
 
   # see https://esphome.io/components/remote_transmitter.html#setting-up-rf-devices
   # for details on discovering the correct codes for your devices
@@ -55,18 +76,5 @@ climate:
   - platform: toshiba
     name: "Dining Room AC"
 
-# Enable Home Assistant API
-api:
-  password: ""
-
-ota:
-  password: ""
-
-wifi:
-  ssid: "IOT"
-  password: "TODO"
-
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    ssid: "Example Fallback Hotspot"
-    password: "Dps8eMYVKLUu"
+web_server:
+  local: true
