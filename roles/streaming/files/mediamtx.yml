@@ -59,15 +59,30 @@ authInternalUsers:
   # List of permissions.
   permissions:
     # Available actions are: publish, read, playback, api, metrics, pprof.
-  - action: publish
     # Paths can be set to further restrict access to a specific path.
     # An empty path means any path.
     # Regular expressions can be used by using a tilde as prefix.
-    path:
+  - action: read
+    path: ~^public_.*
+  - action: playback
+    path: ~^public_.*
+
+- user: private
+  # Password. Not used in case of 'any' user.
+  pass: "{{ mediamtx_private_password }}"
+  # IPs or networks allowed to use this user. An empty list means any IP.
+  ips: []
+  # List of permissions.
+  permissions:
+    # Available actions are: publish, read, playback, api, metrics, pprof.
+    # Paths can be set to further restrict access to a specific path.
+    # An empty path means any path.
+    # Regular expressions can be used by using a tilde as prefix.
   - action: read
     path:
   - action: playback
     path:
+
 
   # Default administrator.
   # This allows to use API, metrics and PPROF without authentication,
@@ -696,12 +711,54 @@ pathDefaults:
 # for example "~^(test1|test2)$" will match both "test1" and "test2",
 # for example "~^prefix" will match all paths that start with "prefix".
 paths:
-  bees:
+  #### Public routes available to internet
+  public_bees:
     source: rtsp://{{ camera_admin_username }}:{{ camera_admin_password }}@camera-6.localdomain/Preview_01_main
     rtspTransport: tcp
 
-  bees_sub:
+  public_bees_sub:
     source: rtsp://{{ camera_admin_username }}:{{ camera_admin_password }}@camera-6.localdomain/Preview_01_sub
+    rtspTransport: tcp
+
+  #### Private routes only available internal network
+  private_camera_1:
+    source: rtsp://{{ camera_admin_username }}:{{ camera_admin_password }}@camera-1.localdomain/Preview_01_main
+    rtspTransport: tcp
+
+  private_camera_1_sub:
+    source: rtsp://{{ camera_admin_username }}:{{ camera_admin_password }}@camera-1.localdomain/Preview_01_sub
+    rtspTransport: tcp
+
+  private_camera_2:
+    source: rtsp://{{ camera_admin_username }}:{{ camera_admin_password }}@camera-2.localdomain/Preview_01_main
+    rtspTransport: tcp
+
+  private_camera_2_sub:
+    source: rtsp://{{ camera_admin_username }}:{{ camera_admin_password }}@camera-2.localdomain/Preview_01_sub
+    rtspTransport: tcp
+
+  private_camera_3:
+    source: rtsp://{{ camera_admin_username }}:{{ camera_admin_password }}@camera-3.localdomain/Preview_01_main
+    rtspTransport: tcp
+
+  private_camera_3_sub:
+    source: rtsp://{{ camera_admin_username }}:{{ camera_admin_password }}@camera-3.localdomain/Preview_01_sub
+    rtspTransport: tcp
+
+  private_camera_4:
+    source: rtsp://{{ camera_admin_username }}:{{ camera_admin_password }}@camera-4.localdomain/Preview_01_main
+    rtspTransport: tcp
+
+  private_camera_4_sub:
+    source: rtsp://{{ camera_admin_username }}:{{ camera_admin_password }}@camera-4.localdomain/Preview_01_sub
+    rtspTransport: tcp
+
+  private_camera_5:
+    source: rtsp://{{ camera_admin_username }}:{{ camera_admin_password }}@camera-5.localdomain/Preview_01_main
+    rtspTransport: tcp
+
+  private_camera_5_sub:
+    source: rtsp://{{ camera_admin_username }}:{{ camera_admin_password }}@camera-5.localdomain/Preview_01_sub
     rtspTransport: tcp
 
   # Settings under path "all_others" are applied to all paths that
